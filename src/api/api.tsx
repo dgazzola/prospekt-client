@@ -2,15 +2,17 @@ import Axios from 'axios';
 import devLog from '../util/devLog';
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_API;
+console.log('api url:', API_URL);
 
 class ApiRequest {
   public baseUrl = `${API_URL}`;
   public baseRoute = '';
-  private headers: { [string: string]: string };
+  private headers: { [key: string]: string };
 
   constructor(token?: string, route = '') {
     this.headers = {};
     this.baseRoute = route;
+    console.log('constructor route:', route);
 
     if (token) {
       this.headers = {
@@ -21,7 +23,7 @@ class ApiRequest {
 
   private async makeRequest(
     requestType: 'get' | 'post' | 'put' | 'delete',
-    path: string,
+    path: string = '',
     data?: any
   ) {
     try {
@@ -49,6 +51,7 @@ class ApiRequest {
       throw new Error(error.response.data);
     }
   }
+
   async get({ path = '' }: { path?: string } = {}) {
     return this.makeRequest('get', path);
   }
@@ -67,17 +70,18 @@ class ApiRequest {
 }
 
 export class ProfileRequest extends ApiRequest {
-  constructor(/*token?: string*/) {
-    super(/*token,*/'/profiles');
+  constructor() {
+    super('/profiles');
   }
 
   async create(data: any) {
     const response = await this.post({ data });
     return response;
   }
+
   async read() {
     console.log('frontend read api call');
-    const response = await this.get();
+    const response = await this.get(); // No need to pass '/profiles' here
     return response;
   }
 }

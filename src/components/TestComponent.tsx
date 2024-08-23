@@ -8,6 +8,7 @@ const TestComponent = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
+      console.log('making fetch call')
       const response = await api.read();
       console.log('response:', response);
       setTestCall(response?.data);
