@@ -4,7 +4,8 @@ import { ProfileRequest } from '@/api/api'
 
 const TestComponent = () => {
   const [testCall, setTestCall] = React.useState('')
-  const api = new ProfileRequest();
+
+  const api = React.useMemo(() => new ProfileRequest(), []); // Memoize the API instance
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -13,12 +14,13 @@ const TestComponent = () => {
       console.log('response:', response);
       setTestCall(response?.data);
     }
+
     fetchData();
-  })
+  }, [api]); // Include `api` in the dependency array
 
   return (
     <h1>TestComponent</h1>
   )
 }
 
-export default TestComponent
+export default TestComponent;
