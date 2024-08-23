@@ -1,5 +1,7 @@
+import TestComponent from "@/components/TestComponent"
+
 const page = () => {
-  return <h1>page render test</h1>
+  return <TestComponent />
 }
 
 export default page
